@@ -1,0 +1,27 @@
+name: jeblarrr
+description: "A new Flutter project for JEBLARR Mie Jebew."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.7
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  # Tambahkan library ini untuk fungsi telepon/WhatsApp
+  url_launcher: ^6.3.2 
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  # Jika nanti kamu punya gambar, aktifkan bagian ini:
+  # assets:
+  #   - assets/images/
