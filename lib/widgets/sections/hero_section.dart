@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 
 class HeroSection extends StatelessWidget {
   final VoidCallback onProductsPressed;
-  
-  // Menggunakan super.key agar lebih ringkas dan modern
   const HeroSection({super.key, required this.onProductsPressed});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      // KUNCINYA: Tinggi dibuat setinggi layar (Viewport Height)
+      height: MediaQuery.of(context).size.height, 
       width: double.infinity,
-      height: MediaQuery.of(context).size.height,
-      color: Colors.black,
+      decoration: const BoxDecoration(color: Colors.black),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -20,34 +19,22 @@ class HeroSection extends StatelessWidget {
             style: TextStyle(
               color: Colors.white, 
               fontSize: 80, 
-              // PERBAIKAN: Ganti .black menjadi .w900
               fontWeight: FontWeight.w900, 
-              letterSpacing: 5,
+              letterSpacing: 10
             ),
           ),
           const Text(
             "\"Sepedas Ekspresimu, Sekuat Nyalimu\"",
-            style: TextStyle(
-              color: Color(0xFFEAB308), 
-              fontSize: 24, 
-              fontStyle: FontStyle.italic,
-            ),
+            style: TextStyle(color: Color(0xFFEAB308), fontSize: 24, fontStyle: FontStyle.italic),
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 50),
           ElevatedButton(
             onPressed: onProductsPressed,
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFDC2626),
-              foregroundColor: Colors.white, // Warna teks tombol
-              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 25),
             ),
-            child: const Text(
-              "COBA SEKARANG", 
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+            child: const Text("COBA SEKARANG", style: TextStyle(color: Colors.white, fontSize: 20)),
           ),
         ],
       ),

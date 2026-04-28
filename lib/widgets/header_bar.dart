@@ -3,66 +3,61 @@ import 'package:flutter/material.dart';
 class HeaderBar extends StatelessWidget {
   final Function(String) onNavigate;
   final VoidCallback onMenuPressed;
+  final VoidCallback onOrderPressed;
 
   const HeaderBar({
-    super.key, // Perbaikan super.key agar lebih simpel
+    super.key,
     required this.onNavigate,
-    required this.onMenuPressed, required void Function() onOrderPressed,
+    required this.onMenuPressed,
+    required this.onOrderPressed,
   });
 
   @override
   Widget build(BuildContext context) {
-    final bool isMobile = MediaQuery.of(context).size.width <= 768;
+    final bool isMobile = MediaQuery.of(context).size.width < 768;
 
     return Container(
       height: 80,
-      decoration: BoxDecoration(
-        // Menghapus 'const' di depan BoxDecoration jika menggunakan .withOpacity
-        color: Colors.black.withOpacity(0.9),
-        border: const Border(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      decoration: const BoxDecoration(
+        color: Colors.black,
+        border: Border(
           bottom: BorderSide(color: Color(0xFFDC2626), width: 2),
         ),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Logo Section
-          InkWell(
-            onTap: () => onNavigate('home'),
-            child: Row(
-              children: [
-                const Icon(Icons.local_fire_department,
-                    color: Color(0xFFEAB308), size: 30),
-                const SizedBox(width: 10),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      'JEBLARR',
-                      style: TextStyle(
+          // 🔥 Logo
+          Row(
+            children: const [
+              Icon(Icons.local_fire_department,
+                  color: Color(0xFFEAB308), size: 30),
+              SizedBox(width: 10),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'JEBLARR',
+                    style: TextStyle(
                         color: Colors.white,
-                        // PERBAIKAN: FontWeight.black -> FontWeight.w900
-                        fontWeight: FontWeight.w900, 
-                        fontSize: 20,
-                      ),
-                    ),
-                    Text(
-                      'Mie Jebew',
-                      style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 20),
+                  ),
+                  Text(
+                    'Mie Jebew',
+                    style: TextStyle(
                         color: Color(0xFFDC2626),
                         fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ],
           ),
 
-          // Desktop Menu
+          // 🔵 Desktop Menu
           if (!isMobile)
             Row(
               children: [
@@ -72,16 +67,20 @@ class HeaderBar extends StatelessWidget {
                 _navLink('Promo', () => onNavigate('promotion')),
                 _navLink('Kontak', () => onNavigate('contact')),
                 const SizedBox(width: 20),
+
+                // 🔥 Tombol Order
                 ElevatedButton(
-                  onPressed: () => onNavigate('order'),
+                  onPressed: onOrderPressed,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFDC2626),
-                    foregroundColor: Colors.white, // Warna teks tombol
+                    foregroundColor: Colors.white,
                   ),
                   child: const Text('PESAN SEKARANG'),
                 ),
               ],
             )
+
+          // 🔵 Mobile Menu
           else
             IconButton(
               icon: const Icon(Icons.menu, color: Colors.white),

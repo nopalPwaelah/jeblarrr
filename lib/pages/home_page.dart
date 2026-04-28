@@ -1,73 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:jeblarrr/pages/order_page.dart';
 import '../widgets/header_bar.dart';
 import '../widgets/navigation_drawer.dart';
 import '../widgets/sections/hero_section.dart';
-import '../widgets/sections/about_section.dart';
-import '../widgets/sections/products_section.dart';
-import '../widgets/sections/promotion_section.dart';
-import '../widgets/sections/contact_section.dart';
-import '../widgets/sections/footer_section.dart';
+import 'about_page.dart';
+import 'promotion_page.dart'; 
+import 'order_page.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePage extends StatelessWidget {
+  HomePage({super.key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
-class _HomePageState extends State<HomePage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final ScrollController _scrollController = ScrollController();
-
-  // Keys untuk navigasi scroll
-  final GlobalKey _homeKey = GlobalKey();
-  final GlobalKey _aboutKey = GlobalKey();
-  final GlobalKey _productsKey = GlobalKey();
-  final GlobalKey _promotionKey = GlobalKey();
-  final GlobalKey _contactKey = GlobalKey();
-
-  void _scrollToSection(GlobalKey key) {
-    final context = key.currentContext;
-    if (context != null) {
-      Scrollable.ensureVisible(
-        context,
-        duration: const Duration(milliseconds: 600),
-        curve: Curves.easeInOutCubic,
-      );
-    }
-  }
-
-  void _navigateToOrder() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const OrderPage()),
-    );
-  }
-
-  void _handleNavigation(String section) {
+  void _handleNavigation(BuildContext context, String section) {
+    // Tutup drawer jika sedang terbuka (untuk mobile mode)
     if (_scaffoldKey.currentState?.isDrawerOpen ?? false) {
       Navigator.pop(context);
     }
 
     switch (section) {
       case 'home':
-        _scrollToSection(_homeKey);
+        // Karena ini sudah di Home, jangan lakukan apa-apa atau pushReplacement ke diri sendiri
         break;
       case 'about':
-        _scrollToSection(_aboutKey);
-        break;
-      case 'products':
-        _scrollToSection(_productsKey);
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutPage()));
         break;
       case 'promotion':
-        _scrollToSection(_promotionKey);
-        break;
-      case 'contact':
-        _scrollToSection(_contactKey);
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const PromotionPage()));
         break;
       case 'order':
-        _navigateToOrder();
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const OrderPage()));
+        break;
+      case 'products':
+        // Jika produk ada di halaman promo atau halaman tersendiri
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const PromotionPage()));
         break;
     }
   }
@@ -76,29 +41,30 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      drawer: CustomNavigationDrawer(onNavigate: _handleNavigation),
+      // Menggunakan CustomNavigationDrawer yang sudah kamu punya
+      drawer: CustomNavigationDrawer(
+        onNavigate: (section) => _handleNavigation(context, section),
+      ),
       body: Stack(
         children: [
-          SingleChildScrollView(
-            controller: _scrollController,
-            child: Column(
-              children: [
-                HeroSection(
-                  key: _homeKey,
-                  onProductsPressed: () => _handleNavigation('products'),
+          // Konten Utama
+          Column(
+            children: [
+              const SizedBox(height: 80), // Jarak agar Hero tidak tertutup Header
+              Expanded(
+                child: HeroSection(
+                  // Callback dari tombol di HeroSection
+                  onProductsPressed: () => _handleNavigation(context, 'promotion'),
                 ),
-                AboutSection(key: _aboutKey),
-                ProductsSection(key: _productsKey),
-                PromotionSection(key: _promotionKey),
-                ContactSection(key: _contactKey),
-                const FooterSection(),
-              ],
-            ),
+              ),
+            ],
           ),
+          
+          // Header tetap melayang di paling atas (Stack)
           HeaderBar(
-            onNavigate: _handleNavigation,
+            onNavigate: (section) => _handleNavigation(context, section),
             onMenuPressed: () => _scaffoldKey.currentState?.openDrawer(),
-            onOrderPressed: _navigateToOrder,
+            onOrderPressed: () => _handleNavigation(context, 'order'),
           ),
         ],
       ),
