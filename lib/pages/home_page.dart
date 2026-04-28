@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jeblarrr/pages/order_page.dart';
 import '../widgets/header_bar.dart';
 import '../widgets/navigation_drawer.dart';
 import '../widgets/sections/hero_section.dart';
@@ -37,17 +38,37 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void _navigateToOrder() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const OrderPage()),
+    );
+  }
+
   void _handleNavigation(String section) {
     if (_scaffoldKey.currentState?.isDrawerOpen ?? false) {
       Navigator.pop(context);
     }
-    
+
     switch (section) {
-      case 'home': _scrollToSection(_homeKey); break;
-      case 'about': _scrollToSection(_aboutKey); break;
-      case 'products': _scrollToSection(_productsKey); break;
-      case 'promotion': _scrollToSection(_promotionKey); break;
-      case 'contact': _scrollToSection(_contactKey); break;
+      case 'home':
+        _scrollToSection(_homeKey);
+        break;
+      case 'about':
+        _scrollToSection(_aboutKey);
+        break;
+      case 'products':
+        _scrollToSection(_productsKey);
+        break;
+      case 'promotion':
+        _scrollToSection(_promotionKey);
+        break;
+      case 'contact':
+        _scrollToSection(_contactKey);
+        break;
+      case 'order':
+        _navigateToOrder();
+        break;
     }
   }
 
@@ -62,7 +83,10 @@ class _HomePageState extends State<HomePage> {
             controller: _scrollController,
             child: Column(
               children: [
-                HeroSection(key: _homeKey, onProductsPressed: () => _handleNavigation('products')),
+                HeroSection(
+                  key: _homeKey,
+                  onProductsPressed: () => _handleNavigation('products'),
+                ),
                 AboutSection(key: _aboutKey),
                 ProductsSection(key: _productsKey),
                 PromotionSection(key: _promotionKey),
@@ -74,6 +98,7 @@ class _HomePageState extends State<HomePage> {
           HeaderBar(
             onNavigate: _handleNavigation,
             onMenuPressed: () => _scaffoldKey.currentState?.openDrawer(),
+            onOrderPressed: _navigateToOrder,
           ),
         ],
       ),

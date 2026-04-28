@@ -7,7 +7,7 @@ class HeaderBar extends StatelessWidget {
   const HeaderBar({
     super.key, // Perbaikan super.key agar lebih simpel
     required this.onNavigate,
-    required this.onMenuPressed,
+    required this.onMenuPressed, required void Function() onOrderPressed,
   });
 
   @override
@@ -73,7 +73,7 @@ class HeaderBar extends StatelessWidget {
                 _navLink('Kontak', () => onNavigate('contact')),
                 const SizedBox(width: 20),
                 ElevatedButton(
-                  onPressed: () => onNavigate('contact'),
+                  onPressed: () => onNavigate('order'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFDC2626),
                     foregroundColor: Colors.white, // Warna teks tombol
