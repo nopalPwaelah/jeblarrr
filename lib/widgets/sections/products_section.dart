@@ -16,6 +16,12 @@ class ProductsSection extends StatelessWidget {
         'colors': [const Color(0xFFEAB308), const Color(0xFFF97316)],
       },
       {
+        'level': 'Pedas 🌶',
+        'title': 'Mie Pedas',
+        'price': 'Rp 16.000',
+        'colors': [const Color(0xFFF97316), const Color(0xFFEF4444)],
+      },
+      {
         'level': 'Level 1 🌶',
         'title': 'Mie Jebew Pedas',
         'price': 'Rp 17.000',
