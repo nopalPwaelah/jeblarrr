@@ -5,6 +5,7 @@ class ProductCard extends StatelessWidget {
   final String title;
   final String price;
   final List<Color> colors;
+  final VoidCallback onPilih;
 
   // Menggunakan super.key (fitur Flutter terbaru agar lebih rapi)
   const ProductCard({
@@ -13,6 +14,7 @@ class ProductCard extends StatelessWidget {
     required this.title,
     required this.price,
     required this.colors,
+    required this.onPilih,
   });
 
   @override
@@ -64,7 +66,7 @@ class ProductCard extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: onPilih,
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.black,
               foregroundColor: Colors.white, // Warna teks tombol
