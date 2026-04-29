@@ -5,6 +5,7 @@ import '../widgets/sections/hero_section.dart';
 import 'about_page.dart';
 import 'promotion_page.dart'; 
 import 'order_page.dart';
+import 'contact_page.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -29,6 +30,9 @@ class HomePage extends StatelessWidget {
         break;
       case 'order':
         Navigator.push(context, MaterialPageRoute(builder: (_) => const OrderPage()));
+        break;
+      case 'contact':
+        Navigator.push(context, MaterialPageRoute(builder: (_) => const ContactPage()));
         break;
       case 'products':
         // Jika produk ada di halaman promo atau halaman tersendiri

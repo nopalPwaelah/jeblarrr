@@ -22,6 +22,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # Jika nanti kamu punya gambar, aktifkan bagian ini:
-  # assets:
-  #   - assets/images/
+  assets:
+    - assets/images/

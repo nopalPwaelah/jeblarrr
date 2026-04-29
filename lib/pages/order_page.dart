@@ -20,9 +20,9 @@ class _OrderPageState extends State<OrderPage> {
   final List<Map<String, dynamic>> _menuItems = [
     {'name': 'Mie Jebew Original', 'price': 15000, 'qty': 0},
     {'name': 'Mie Pedas', 'price': 16000, 'qty': 0},
-    {'name': 'Mie Jebew Level 1', 'price': 17000, 'qty': 0},
-    {'name': 'Mie Jebew Level 2', 'price': 17000, 'qty': 0},
-    {'name': 'Mie Jebew Level 3', 'price': 19000, 'qty': 0},
+    {'name': 'Mie Jebew Kornet', 'price': 17000, 'qty': 0},
+    {'name': 'Mie Jebew Bakso', 'price': 17000, 'qty': 0},
+    {'name': 'Mie Jebew Sosis', 'price': 19000, 'qty': 0},
     {'name': 'Mie Jebew Spesial', 'price': 22000, 'qty': 0},
   ];
 
