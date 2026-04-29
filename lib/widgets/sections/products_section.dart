@@ -7,7 +7,7 @@ class ProductsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Menu sesuai dengan halaman pesanan
+    // Pindahkan list products ke sini
     final List<Map<String, dynamic>> products = [
       {
         'level': 'Original',
@@ -16,26 +16,20 @@ class ProductsSection extends StatelessWidget {
         'colors': [const Color(0xFFEAB308), const Color(0xFFF97316)],
       },
       {
-        'level': 'Pedas 🌶',
-        'title': 'Mie Pedas',
-        'price': 'Rp 16.000',
-        'colors': [const Color(0xFFF97316), const Color(0xFFEF4444)],
-      },
-      {
-        'level': 'Kornet',
-        'title': 'Mie Jebew Kornet',
+        'level': 'Level 1 🌶',
+        'title': 'Mie Jebew Pedas',
         'price': 'Rp 17.000',
         'colors': [const Color(0xFFF97316), const Color(0xFFEF4444)],
       },
       {
-        'level': 'Bakso',
-        'title': 'Mie Jebew Bakso',
+        'level': 'Level 2 🌶🌶',
+        'title': 'Mie Jebew Extra',
         'price': 'Rp 17.000',
         'colors': [const Color(0xFFEF4444), const Color(0xFFDC2626)],
       },
       {
-        'level': 'Sosis',
-        'title': 'Mie Jebew Sosis',
+        'level': 'Level 3 🌶🌶🌶',
+        'title': 'Mie Jebew Gila',
         'price': 'Rp 19.000',
         'colors': [const Color(0xFFDC2626), const Color(0xFF991B1B)],
       },
@@ -51,12 +45,12 @@ class ProductsSection extends StatelessWidget {
       child: Column(
         children: [
           const Text(
-            "SEMUA MENU",
+            "MENU SPESIAL",
             style: TextStyle(color: Color(0xFFDC2626), fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
           const Text(
-            "Pilih Menu Favoritmu",
+            "Pilih Level Kepedasanmu",
             style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 40),

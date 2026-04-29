@@ -13,6 +13,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   # Tambahkan library ini untuk fungsi telepon/WhatsApp
   url_launcher: ^6.3.2 
+  carousel_slider: ^5.0.0
 
 dev_dependencies:
   flutter_test:
@@ -21,6 +22,15 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
   assets:
-    - assets/images/
+    - assets/images/anu_1.jpg
+    - assets/images/anu_2.jpg
+    - assets/images/mi_jebew_1.jpg
+    - assets/images/mi_jebew_2.jpg
+    - assets/images/mi_jebew_3.jpg
+    - assets/images/mi_jebew_4.jpg
+    - assets/images/mi_jebew_5.jpg
+    - assets/images/mi_jebew_6.jpg
+    - assets/images/foto_1.jpg
+    - assets/images/foto_2.jpg
+    - assets/images/foto_3.jpg

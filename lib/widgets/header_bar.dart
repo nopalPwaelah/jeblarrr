@@ -28,36 +28,38 @@ class HeaderBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // 🔥 Logo
-          Row(
-            children: const [
-              Icon(Icons.local_fire_department,
-                  color: Color(0xFFEAB308), size: 30),
-              SizedBox(width: 10),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'JEBLARR',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 20),
-                  ),
-                  Text(
-                    'Mie Jebew',
-                    style: TextStyle(
-                        color: Color(0xFFDC2626),
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ],
+          // Logo Section
+          InkWell(
+            onTap: () => onNavigate('home'),
+            child: Row(
+              children: [
+                const Icon(Icons.local_fire_department, color: Color(0xFFEAB308), size: 30),
+                const SizedBox(width: 10),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      'JEBLARR',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 20),
+                    ),
+                    Text(
+                      'Mie Jebew',
+                      style: TextStyle(
+                          color: Color(0xFFDC2626),
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
 
-          // 🔵 Desktop Menu
+          // Navigation Links
           if (!isMobile)
             Row(
               children: [
@@ -67,23 +69,20 @@ class HeaderBar extends StatelessWidget {
                 _navLink('Promo', () => onNavigate('promotion')),
                 _navLink('Kontak', () => onNavigate('contact')),
                 const SizedBox(width: 20),
-
-                // 🔥 Tombol Order
                 ElevatedButton(
                   onPressed: onOrderPressed,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFDC2626),
                     foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   ),
                   child: const Text('PESAN SEKARANG'),
                 ),
               ],
             )
-
-          // 🔵 Mobile Menu
           else
             IconButton(
-              icon: const Icon(Icons.menu, color: Colors.white),
+              icon: const Icon(Icons.menu, color: Colors.white, size: 28),
               onPressed: onMenuPressed,
             ),
         ],

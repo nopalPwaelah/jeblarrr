@@ -1,5 +1,13 @@
 // lib/pages/order_page.dart
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import '../widgets/header_bar.dart';
+import '../widgets/navigation_drawer.dart';
+import 'contact_page.dart';
+import 'home_page.dart';
+import 'menu_page.dart';
+import 'promotion_page.dart';
+import 'order_page.dart';
 
 class OrderPage extends StatefulWidget {
   const OrderPage({Key? key}) : super(key: key);
