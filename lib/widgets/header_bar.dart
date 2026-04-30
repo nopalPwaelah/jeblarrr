@@ -33,7 +33,13 @@ class HeaderBar extends StatelessWidget {
             onTap: () => onNavigate('home'),
             child: Row(
               children: [
-                const Icon(Icons.local_fire_department, color: Color(0xFFEAB308), size: 30),
+                // Menggunakan Logo Gambar Aset
+                Image.asset(
+                  'assets/images/logo_jeblarr.png', 
+                  height: 40,
+                  errorBuilder: (context, error, stackTrace) => 
+                    const Icon(Icons.local_fire_department, color: Color(0xFFEAB308), size: 30),
+                ),
                 const SizedBox(width: 10),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -59,7 +65,7 @@ class HeaderBar extends StatelessWidget {
             ),
           ),
 
-          // Navigation Links
+          // Tombol Navigasi
           if (!isMobile)
             Row(
               children: [

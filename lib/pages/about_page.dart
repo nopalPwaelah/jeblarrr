@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:url_launcher/url_launcher.dart'; // Wajib ada
 import '../widgets/header_bar.dart';
 import '../widgets/navigation_drawer.dart';
-import 'contact_page.dart';
-import 'home_page.dart';
-import 'menu_page.dart';
-import 'promotion_page.dart';
-import 'order_page.dart';
-
 
 class AboutPage extends StatefulWidget {
   const AboutPage({super.key});
@@ -19,31 +13,37 @@ class AboutPage extends StatefulWidget {
 class _AboutPageState extends State<AboutPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
-  // Data Anggota Kelompok
+  // --- DATA ANGGOTA TIM DENGAN LINK SOSIAL MEDIA ---
   final List<Map<String, dynamic>> teamMembers = [
     {
       'id': 1,
       'name': 'Naufal Ap',
       'role': 'Project Leader',
       'desc': 'Bertanggung jawab atas visi produk dan koordinasi tim Jeblarrr.',
-      'image': 'assets/images/foto_1.jpg',
-      'color': Colors.orange
+      'image': 'assets/images/aku.png',
+      'color': Colors.orange,
+      'instagram': 'https://www.instagram.com/fallsapprdn05_?igsh=aHRscm5udTJhazd5', // Ganti dengan link asli
+      'github': 'https://github.com/nopalPwaelah', 
     },
     {
       'id': 2,
-      'name': 'Teman 1',
+      'name': 'Dava Firmansyah',
       'role': 'Lead Developer',
       'desc': 'Ahli dalam menyusun logika Flutter dan memastikan aplikasi berjalan mulus.',
-      'image': 'assets/images/foto_2.jpg',
-      'color': Colors.blue
+      'image': 'assets/images/dava.png',
+      'color': Colors.blue,
+      'instagram': 'https://www.instagram.com/amad_firmn?igsh=MWtqa3htdWFjNW9kcA==',
+      'github': 'https://github.com/mdavafirmansyah',
     },
     {
       'id': 3,
-      'name': 'Teman 2',
+      'name': 'Naufal Yudantara',
       'role': 'UI/UX Designer',
       'desc': 'Menjaga estetika visual Jeblarrr agar selalu menggugah selera.',
-      'image': 'assets/images/foto_3.jpg',
-      'color': Colors.green
+      'image': 'assets/images/nopal_y.png',
+      'color': Colors.green,
+      'instagram': 'https://www.instagram.com/nuflydtr7?igsh=OHR6cG9hNTYzMWNy&utm_source=qr',
+      'github': 'https://github.com/naufalyudantara07',
     },
   ];
 
@@ -53,6 +53,20 @@ class _AboutPageState extends State<AboutPage> {
   void initState() {
     super.initState();
     selectedMember = teamMembers[0];
+  }
+
+  // --- FUNGSI UNTUK MEMBUKA LINK ---
+  Future<void> _launchURL(String urlString) async {
+    final Uri url = Uri.parse(urlString);
+    try {
+      if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+        throw Exception('Could not launch $url');
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal membuka link: $urlString')),
+      );
+    }
   }
 
   @override
@@ -74,11 +88,16 @@ class _AboutPageState extends State<AboutPage> {
                 const Text(
                   "\"SEPEDAS EKSPRESIMU,\nSEKUAT NYALIMU!\"",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.w900, color: Color(0xFFE12027)),
+                  style: TextStyle(
+                    fontSize: 32, 
+                    fontWeight: FontWeight.w900, 
+                    color: Color(0xFFE12027),
+                    height: 1.2,
+                  ),
                 ),
                 const SizedBox(height: 40),
 
-                // AREA TRANSISI DETAIL
+                // --- AREA DETAIL ANGGOTA ---
                 Container(
                   height: 480,
                   width: double.infinity,
@@ -87,7 +106,13 @@ class _AboutPageState extends State<AboutPage> {
                   decoration: BoxDecoration(
                     color: Colors.grey[50],
                     borderRadius: BorderRadius.circular(30),
-                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 20)],
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05), 
+                        blurRadius: 20,
+                        offset: const Offset(0, 10),
+                      )
+                    ],
                   ),
                   child: AnimatedSwitcher(
                     duration: const Duration(milliseconds: 500),
@@ -96,25 +121,53 @@ class _AboutPageState extends State<AboutPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CircleAvatar(
-                          radius: 70,
+                          radius: 75,
                           backgroundColor: selectedMember!['color'],
                           backgroundImage: AssetImage(selectedMember!['image']),
                           onBackgroundImageError: (e, s) => debugPrint("Error load image"),
                         ),
+                        const SizedBox(height: 20),
+                        Text(
+                          selectedMember!['name'], 
+                          style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          selectedMember!['role'].toUpperCase(), 
+                          style: const TextStyle(
+                            color: Color(0xFFE12027), 
+                            fontWeight: FontWeight.w800, 
+                            letterSpacing: 2,
+                            fontSize: 14,
+                          ),
+                        ),
                         const SizedBox(height: 15),
-                        Text(selectedMember!['name'], style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                        Text(selectedMember!['role'].toUpperCase(), 
-                          style: const TextStyle(color: Color(0xFFE12027), fontWeight: FontWeight.w800, letterSpacing: 2)),
-                        const SizedBox(height: 15),
-                        Text(selectedMember!['desc'], textAlign: TextAlign.center, style: TextStyle(color: Colors.grey[600])),
-                        const SizedBox(height: 25),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Text(
+                            selectedMember!['desc'], 
+                            textAlign: TextAlign.center, 
+                            style: TextStyle(color: Colors.grey[600], fontSize: 14, height: 1.5),
+                          ),
+                        ),
+                        const SizedBox(height: 30),
                         
+                        // --- TOMBOL SOSIAL MEDIA ---
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            _buildSocialIcon(Icons.camera_alt_outlined, "Instagram", Colors.pink),
-                            _buildSocialIcon(Icons.business_center_outlined, "LinkedIn", Colors.blue[800]!),
-                            _buildSocialIcon(Icons.facebook_outlined, "Facebook", Colors.blue[600]!),
+                            _buildSocialIcon(
+                              Icons.camera_alt_outlined, 
+                              "Instagram", 
+                              Colors.pink, 
+                              selectedMember!['instagram'],
+                            ),
+                            const SizedBox(width: 25),
+                            _buildSocialIcon(
+                              Icons.code_rounded, 
+                              "GitHub", 
+                              const Color(0xFF24292E), 
+                              selectedMember!['github'],
+                            ),
                           ],
                         ),
                       ],
@@ -124,7 +177,12 @@ class _AboutPageState extends State<AboutPage> {
 
                 const SizedBox(height: 40),
 
-                // --- BAGIAN SELECTOR (YANG TADI ERROR) ---
+                // --- SELECTOR ANGGOTA (KECIL) ---
+                const Text(
+                  "Kenali Tim Kami",
+                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+                ),
+                const SizedBox(height: 15),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
@@ -154,13 +212,15 @@ class _AboutPageState extends State<AboutPage> {
                           ),
                         ),
                       );
-                    }).toList(), // Pastikan ada .toList() dan ditutup dengan benar
+                    }).toList(),
                   ),
                 ),
                 const SizedBox(height: 100),
               ],
             ),
           ),
+          
+          // --- HEADER BAR ---
           HeaderBar(
             onNavigate: (section) => section == 'home' ? Navigator.pop(context) : null,
             onMenuPressed: () => _scaffoldKey.currentState?.openDrawer(),
@@ -171,28 +231,32 @@ class _AboutPageState extends State<AboutPage> {
     );
   }
 
-  // Fungsi helper diletakkan di dalam class _AboutPageState
-  Widget _buildSocialIcon(IconData icon, String label, Color color) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: InkWell(
-        onTap: () {
-          debugPrint("Membuka $label milik ${selectedMember!['name']}");
-        },
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(icon, color: color, size: 28),
+  // --- WIDGET HELPER UNTUK IKON SOSIAL MEDIA ---
+  Widget _buildSocialIcon(IconData icon, String label, Color color, String url) {
+    return InkWell(
+      onTap: () => _launchURL(url),
+      borderRadius: BorderRadius.circular(15),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              shape: BoxShape.circle,
             ),
-            const SizedBox(height: 5),
-            Text(label, style: TextStyle(fontSize: 10, color: color, fontWeight: FontWeight.bold)),
-          ],
-        ),
+            child: Icon(icon, color: color, size: 30),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            label, 
+            style: TextStyle(
+              fontSize: 12, 
+              color: color, 
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
     );
   }
