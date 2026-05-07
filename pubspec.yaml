@@ -25,6 +25,7 @@ flutter:
   assets:
     - assets/images/anu_1.jpg
     - assets/images/anu_2.jpg
+    - assets/images/anu_3.jpg
     - assets/images/mi_jebew_1.jpg
     - assets/images/mi_jebew_2.jpg
     - assets/images/mi_jebew_3.jpg

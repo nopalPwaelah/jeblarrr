@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../utils/navigation_helper.dart';
 import '../widgets/header_bar.dart';
 import '../widgets/navigation_drawer.dart';
 // Import lainnya pastikan jalurnya benar
@@ -41,9 +42,8 @@ class ContactPage extends StatelessWidget {
       backgroundColor: Colors.black,
       drawer: CustomNavigationDrawer(
         onNavigate: (section) {
-          if (section == 'home') {
-            Navigator.popUntil(context, (route) => route.isFirst);
-          }
+          Navigator.pop(context);
+          navigateToSection(context, section);
         },
       ),
       // MENGGUNAKAN COLUMN AGAR AREA KLIK TIDAK SALING TUMPANG TINDIH
@@ -52,9 +52,8 @@ class ContactPage extends StatelessWidget {
           children: [
             // 1. Header tetap di paling atas (Tinggi tetap 80)
             HeaderBar(
-              onNavigate: (section) {
-                if (section == 'home') Navigator.popUntil(context, (route) => route.isFirst);
-              },
+              currentPage: 'contact',
+              onNavigate: (section) => navigateToSection(context, section),
               onMenuPressed: () => scaffoldKey.currentState?.openDrawer(),
               onOrderPressed: () {},
             ),

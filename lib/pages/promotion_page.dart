@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utils/navigation_helper.dart';
 import '../widgets/header_bar.dart';
 import '../widgets/navigation_drawer.dart';
 
@@ -15,9 +16,8 @@ class PromotionPage extends StatelessWidget {
       backgroundColor: Colors.black,
       drawer: CustomNavigationDrawer(
         onNavigate: (section) {
-          if (section == 'home') {
-            Navigator.popUntil(context, (route) => route.isFirst);
-          }
+          Navigator.pop(context);
+          navigateToSection(context, section);
         },
       ),
       body: SafeArea(
@@ -25,9 +25,8 @@ class PromotionPage extends StatelessWidget {
           children: [
             // 1. Header tetap di atas
             HeaderBar(
-              onNavigate: (section) {
-                // Logika navigasi jika diperlukan
-              },
+              currentPage: 'promotion',
+              onNavigate: (section) => navigateToSection(context, section),
               onMenuPressed: () => scaffoldKey.currentState?.openDrawer(),
               onOrderPressed: () {},
             ),

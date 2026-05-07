@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart'; // Wajib ada
+import '../utils/navigation_helper.dart';
 import '../widgets/header_bar.dart';
 import '../widgets/navigation_drawer.dart';
 
@@ -76,7 +77,8 @@ class _AboutPageState extends State<AboutPage> {
       backgroundColor: Colors.white,
       drawer: CustomNavigationDrawer(
         onNavigate: (section) {
-          if (section == 'home') Navigator.popUntil(context, (route) => route.isFirst);
+          Navigator.pop(context);
+          navigateToSection(context, section);
         },
       ),
       body: Stack(

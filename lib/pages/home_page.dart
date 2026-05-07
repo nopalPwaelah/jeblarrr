@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../widgets/header_bar.dart';
 import '../widgets/navigation_drawer.dart';
+import '../utils/navigation_helper.dart';
 import 'about_page.dart';
 import 'promotion_page.dart';
 import 'order_page.dart';
@@ -16,38 +17,22 @@ class HomePage extends StatelessWidget {
   final List<String> bannerImages = [
     'assets/images/anu_1.jpg',
     'assets/images/anu_2.jpg',
+    'assets/images/anu_3.jpg',
+
   ];
 
   void _handleNavigation(BuildContext context, String section) {
     if (_scaffoldKey.currentState?.isDrawerOpen ?? false) {
       Navigator.pop(context);
     }
-    switch (section) {
-      case 'home':
-        break;
-      case 'about':
-        Navigator.push(context, MaterialPageRoute(builder: (_) => const AboutPage()));
-        break;
-      case 'promotion':
-        Navigator.push(context, MaterialPageRoute(builder: (_) => const PromotionPage()));
-        break;
-      case 'products':
-        Navigator.push(context, MaterialPageRoute(builder: (_) => const MenuPage()));
-        break;
-      case 'order':
-        Navigator.push(context, MaterialPageRoute(builder: (_) => const OrderPage()));
-        break;
-      case 'contact':
-        Navigator.push(context, MaterialPageRoute(builder: (_) => const ContactPage()));
-        break;
-    }
+    navigateToSection(context, section, currentPage: 'home');
   }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     // containerWidth digunakan agar konten menu tidak terlalu lebar di layar PC
-    double containerWidth = screenWidth > 1200 ? 1100 : screenWidth * 0.9;
+    double containerWidth = screenWidth > 2100 ? 1080 : screenWidth * 0.9;
 
     return Scaffold(
       key: _scaffoldKey,
@@ -66,8 +51,8 @@ class HomePage extends StatelessWidget {
                 // --- 2. PROMOTION BANNER (FULL WIDTH) ---
                 CarouselSlider(
                   options: CarouselOptions(
-                    // Tinggi responsif: 500 di web/PC, 250 di HP
-                    height: screenWidth > 800 ? 500.0 : 250.0,
+                    // Tinggi full screen minus header (120 + 80 = 200)
+                    height: MediaQuery.of(context).size.height - 200.0,
                     autoPlay: true,
                     // viewportFraction: 1.0 agar gambar FULL selebar layar
                     viewportFraction: 1.0,
@@ -79,6 +64,7 @@ class HomePage extends StatelessWidget {
                       assetPath,
                       fit: BoxFit.cover, // Gambar akan memenuhi area tanpa gepeng
                       width: double.infinity,
+                      height: MediaQuery.of(context).size.height - 200.0,
                       errorBuilder: (context, error, stackTrace) => Container(
                         color: Colors.grey[300],
                         child: const Icon(Icons.broken_image, size: 50),
