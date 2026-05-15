@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'order_page.dart';
+import '../widgets/header_bar.dart';
+import '../widgets/navigation_drawer.dart';
+import '../utils/navigation_helper.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({Key? key}) : super(key: key);
@@ -99,7 +101,7 @@ class _MenuPageState extends State<MenuPage> {
         formatRupiah: _formatRupiah,
         onOrder: () {
           Navigator.pop(context);
-          Navigator.push(context, MaterialPageRoute(builder: (_) => const OrderPage()));
+          navigateToSection(context, 'order');
         },
       ),
     );
@@ -107,97 +109,93 @@ class _MenuPageState extends State<MenuPage> {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+    
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Row(
-          children: [
-            const Icon(Icons.local_fire_department, color: Color(0xFFFFB300), size: 24),
-            const SizedBox(width: 8),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text('JEBLARR', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
-                Text('Mie Jebew', style: TextStyle(color: Color(0xFFE53935), fontSize: 11)),
-              ],
-            ),
-          ],
-        ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: Container(height: 1, color: const Color(0xFFE53935)),
-        ),
+      drawer: CustomNavigationDrawer(
+        onNavigate: (section) {
+          Navigator.pop(context);
+          navigateToSection(context, section);
+        },
       ),
       body: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
-            child: const Column(
+          HeaderBar(
+            currentPage: 'products',
+            onNavigate: (section) => navigateToSection(context, section),
+            onMenuPressed: () => scaffoldKey.currentState?.openDrawer(),
+            onOrderPressed: () => navigateToSection(context, 'order'),
+          ),
+          Expanded(
+            child: Column(
               children: [
-                Text('MENU KAMI', style: TextStyle(color: Color(0xFFE53935), fontWeight: FontWeight.bold, letterSpacing: 2)),
-                SizedBox(height: 6),
-                Text('Pilih Level Kepedasanmu', style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
+                  child: const Column(
+                    children: [
+                      Text('MENU KAMI', style: TextStyle(color: Color(0xFFE53935), fontWeight: FontWeight.bold, letterSpacing: 2)),
+                      SizedBox(height: 6),
+                      Text('Pilih Level Kepedasanmu', style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  height: 40,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    itemCount: _filters.length,
+                    separatorBuilder: (_, __) => const SizedBox(width: 8),
+                    itemBuilder: (_, i) {
+                      final isSelected = _selectedFilter == _filters[i];
+                      return GestureDetector(
+                        onTap: () => setState(() => _selectedFilter = _filters[i]),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: isSelected ? const Color(0xFFE53935) : const Color(0xFF1A1A1A),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: isSelected ? const Color(0xFFE53935) : Colors.white12),
+                          ),
+                          child: Text(
+                            _filters[i],
+                            style: TextStyle(
+                              color: isSelected ? Colors.white : Colors.white54,
+                              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Expanded(
+                  child: _filteredMenus.isEmpty
+                      ? const Center(child: Text('Menu tidak ditemukan', style: TextStyle(color: Colors.white38)))
+                      : GridView.builder(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 14,
+                            mainAxisSpacing: 14,
+                            childAspectRatio: 0.7,
+                          ),
+                          itemCount: _filteredMenus.length,
+                          itemBuilder: (_, i) => _MenuCard(
+                            menu: _filteredMenus[i],
+                            formatRupiah: _formatRupiah,
+                            onTap: () => _showDetail(_filteredMenus[i]),
+                          ),
+                        ),
+                ),
               ],
             ),
-          ),
-          const SizedBox(height: 20),
-          SizedBox(
-            height: 40,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              itemCount: _filters.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 8),
-              itemBuilder: (_, i) {
-                final isSelected = _selectedFilter == _filters[i];
-                return GestureDetector(
-                  onTap: () => setState(() => _selectedFilter = _filters[i]),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: isSelected ? const Color(0xFFE53935) : const Color(0xFF1A1A1A),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: isSelected ? const Color(0xFFE53935) : Colors.white12),
-                    ),
-                    child: Text(
-                      _filters[i],
-                      style: TextStyle(
-                        color: isSelected ? Colors.white : Colors.white54,
-                        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                        fontSize: 13,
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 20),
-          Expanded(
-            child: _filteredMenus.isEmpty
-                ? const Center(child: Text('Menu tidak ditemukan', style: TextStyle(color: Colors.white38)))
-                : GridView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 14,
-                      mainAxisSpacing: 14,
-                      childAspectRatio: 0.7, // Disesuaikan agar muat gambar + teks
-                    ),
-                    itemCount: _filteredMenus.length,
-                    itemBuilder: (_, i) => _MenuCard(
-                      menu: _filteredMenus[i],
-                      formatRupiah: _formatRupiah,
-                      onTap: () => _showDetail(_filteredMenus[i]),
-                    ),
-                  ),
           ),
         ],
       ),

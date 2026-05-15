@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import 'pages/home_page.dart'; // Pastikan path ini sesuai dengan folder kamu
+import 'pages/home_page.dart';
+import 'pages/about_page.dart';
+import 'pages/promotion_page.dart';
+import 'pages/menu_page.dart';
+import 'pages/order_page.dart';
+import 'pages/contact_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,8 +26,15 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      // Hapus 'const' jika di HomePage ada variabel yang tidak konstan
-      home: HomePage(), 
+      initialRoute: '/home',
+      routes: {
+        '/home': (context) => HomePage(),
+        '/about': (context) => const AboutPage(),
+        '/promotion': (context) => const PromotionPage(),
+        '/products': (context) => const MenuPage(),
+        '/order': (context) => const OrderPage(),
+        '/contact': (context) => const ContactPage(),
+      },
     );
   }
 }

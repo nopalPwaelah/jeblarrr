@@ -224,9 +224,10 @@ class _AboutPageState extends State<AboutPage> {
           
           // --- HEADER BAR ---
           HeaderBar(
-            onNavigate: (section) => section == 'home' ? Navigator.pop(context) : null,
+            currentPage: 'about',
+            onNavigate: (section) => navigateToSection(context, section),
             onMenuPressed: () => _scaffoldKey.currentState?.openDrawer(),
-            onOrderPressed: () {},
+            onOrderPressed: () => navigateToSection(context, 'order'),
           ),
         ],
       ),

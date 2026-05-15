@@ -1,13 +1,7 @@
-// lib/pages/order_page.dart
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import '../widgets/header_bar.dart';
 import '../widgets/navigation_drawer.dart';
-import 'contact_page.dart';
-import 'home_page.dart';
-import 'menu_page.dart';
-import 'promotion_page.dart';
-import 'order_page.dart';
+import '../utils/navigation_helper.dart';
 
 class OrderPage extends StatefulWidget {
   const OrderPage({Key? key}) : super(key: key);
@@ -128,35 +122,27 @@ class _OrderPageState extends State<OrderPage> {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+    
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Row(
-          children: [
-            const Icon(Icons.local_fire_department, color: Color(0xFFFFB300), size: 24),
-            const SizedBox(width: 8),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text('JEBLARR', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
-                Text('Mie Jebew', style: TextStyle(color: Color(0xFFE53935), fontSize: 11)),
-              ],
-            ),
-          ],
-        ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: Container(height: 1, color: const Color(0xFFE53935)),
-        ),
+      drawer: CustomNavigationDrawer(
+        onNavigate: (section) {
+          Navigator.pop(context);
+          navigateToSection(context, section);
+        },
       ),
       body: Column(
         children: [
+          // Header Bar
+          HeaderBar(
+            currentPage: 'order',
+            onNavigate: (section) => navigateToSection(context, section),
+            onMenuPressed: () => scaffoldKey.currentState?.openDrawer(),
+            onOrderPressed: () {},
+          ),
+          // Content
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(20),
